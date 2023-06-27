@@ -127,13 +127,6 @@ class OrgModel(BaseModel):
                                    ).distinct()
 
 
-class ReviewStatus(models.TextChoices):
-    DRAFT = 'DRAFT', _('Draft'),
-    IN_PROGRESS = 'IN_PROGRESS', _('In progress'),
-    IN_REVIEW = 'IN_REVIEW', _('In Review'),
-    APPROVED = 'APPROVED', _('Approved'),
-
-
 class Attachment(OrgModel):
     org_group = models.ForeignKey(OrgGroup, on_delete=models.SET_NULL, blank=True, null=True,
                                   verbose_name='organization group', related_name='api_attachments')
@@ -146,20 +139,33 @@ class Resource(OrgModel):
     summary = models.CharField(max_length=256, null=True, blank=True)
     type = models.CharField(max_length=256, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
-    purpose = models.CharField(max_length=1024, null=True, blank=True)
-    details_file = models.FileField(upload_to='resources', blank=True, null=True,
-                                    verbose_name='File with details')
+    details_file = models.FileField(upload_to='resources', blank=True, null=True, verbose_name='File with details')
     attachments = models.ManyToManyField(Attachment, related_name='resource_attachments', blank=True)
     properties = models.JSONField(null=True, blank=True)
 
-    def get_list_query_set(self, user):
-        if user.is_superuser:
-            return self.objects.all()
-        user_id = user.id if user else None
-        return self.objects.filter(Q(org_group__isnull=True)
-                                   | Q(org_group__members__pk=user_id)
-                                   | Q(org_group__leaders__pk=user_id)
-                                   ).distinct()
 
-    def can_read(self, user):
-        return self.is_owner(user) or self.is_member(user)
+class Request(OrgModel):
+    class RequestStatus(models.TextChoices):
+        DRAFT = 'DRAFT', _('Draft'),
+        GRANTED = 'GRANTED', _('Granted'),
+        REVOKED = 'REVOKED', _('Revoked'),
+        APPROVED = 'CLOSED', _('Closed'),
+
+    class RequestPriority(models.TextChoices):
+        HIGH = 'HIGH', _('High'),
+        MEDIUM = 'MEDIUM', _('Medium'),
+        LOW = 'LOW', _('Low'),
+
+    name = models.CharField(max_length=256, unique=True)
+    summary = models.CharField(max_length=256, null=True, blank=True)
+    type = models.CharField(max_length=256, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    start_time = models.DateTimeField(verbose_name='start time')
+    end_time = models.DateTimeField(verbose_name='end time')
+    priority = models.CharField(max_length=7, choices=RequestPriority.choices, default=RequestPriority.LOW)
+    purpose = models.TextField(null=True, blank=True)
+    details_file = models.FileField(upload_to='requests', blank=True, null=True, verbose_name='File with details')
+    attachments = models.ManyToManyField(Attachment, related_name='request_attachments', blank=True)
+
+    status = models.CharField(max_length=7, choices=RequestStatus.choices, default=RequestStatus.DRAFT)
+    properties = models.JSONField(null=True, blank=True)

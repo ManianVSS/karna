@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 
-from .models import Attachment, OrgGroup, Configuration, Resource
+from .models import Attachment, OrgGroup, Configuration, Resource, Request
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -37,5 +37,12 @@ class AttachmentSerializer(serializers.ModelSerializer):
 class ResourceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Resource
-        fields = ['id', 'name', 'summary', 'type', 'description', 'purpose', 'details_file', 'attachments',
-                  'properties', 'org_group', 'published', ]
+        fields = ['id', 'name', 'summary', 'type', 'description', 'details_file', 'attachments', 'properties',
+                  'org_group', 'published', ]
+
+
+class RequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Request
+        fields = ['id', 'name', 'summary', 'type', 'description', 'start_time', 'end_time', 'priority', 'purpose',
+                  'details_file', 'attachments', 'status', 'properties', 'org_group', 'published', ]

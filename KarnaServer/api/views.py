@@ -4,9 +4,9 @@ from rest_framework import viewsets
 from rest_framework.permissions import DjangoObjectPermissions, DjangoModelPermissions, IsAdminUser
 from rest_framework.viewsets import ModelViewSet
 
-from .models import Attachment, OrgGroup, Configuration, Resource
+from .models import Attachment, OrgGroup, Configuration, Resource, Request
 from .serializers import UserSerializer, GroupSerializer, AttachmentSerializer, OrgGroupSerializer, \
-    ConfigurationSerializer, ResourceSerializer
+    ConfigurationSerializer, ResourceSerializer, RequestSerializer
 
 exact_fields_filter_lookups = ['exact', ]
 # many_to_many_id_field_lookups = ['contains']
@@ -179,6 +179,29 @@ class ResourceViewSet(KarnaOrgGroupViewSet):
         'summary': string_fields_filter_lookups,
         'type': string_fields_filter_lookups,
         'purpose': string_fields_filter_lookups,
+        'org_group': id_fields_filter_lookups,
+        'published': exact_fields_filter_lookups,
+    }
+
+
+class RequestViewSet(KarnaOrgGroupViewSet):
+    queryset = Request.objects.filter(published=True)
+    serializer_class = RequestSerializer
+    permission_classes = [KarnaOrgGroupObjectLevelPermission]
+    search_fields = default_search_fields
+    ordering_fields = ['id', 'name', 'summary', 'type', 'start_date', 'end_date', 'priority', 'purpose', 'status',
+                       'org_group', 'published', ]
+    ordering = ['-id']
+    filterset_fields = {
+        'id': id_fields_filter_lookups,
+        'name': string_fields_filter_lookups,
+        'summary': string_fields_filter_lookups,
+        'type': string_fields_filter_lookups,
+        'start_date': datetime_fields_filter_lookups,
+        'end_date': datetime_fields_filter_lookups,
+        'priority': exact_fields_filter_lookups,
+        'purpose': string_fields_filter_lookups,
+        'status': exact_fields_filter_lookups,
         'org_group': id_fields_filter_lookups,
         'published': exact_fields_filter_lookups,
     }
