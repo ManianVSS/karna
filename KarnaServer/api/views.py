@@ -4,9 +4,9 @@ from rest_framework import viewsets
 from rest_framework.permissions import DjangoObjectPermissions, DjangoModelPermissions, IsAdminUser
 from rest_framework.viewsets import ModelViewSet
 
-from .models import Attachment, OrgGroup, Configuration
+from .models import Attachment, OrgGroup, Configuration, Resource
 from .serializers import UserSerializer, GroupSerializer, AttachmentSerializer, OrgGroupSerializer, \
-    ConfigurationSerializer
+    ConfigurationSerializer, ResourceSerializer
 
 exact_fields_filter_lookups = ['exact', ]
 # many_to_many_id_field_lookups = ['contains']
@@ -161,6 +161,24 @@ class AttachmentViewSet(KarnaOrgGroupViewSet):
     filterset_fields = {
         'id': id_fields_filter_lookups,
         'name': string_fields_filter_lookups,
+        'org_group': id_fields_filter_lookups,
+        'published': exact_fields_filter_lookups,
+    }
+
+
+class ResourceViewSet(KarnaOrgGroupViewSet):
+    queryset = Resource.objects.filter(published=True)
+    serializer_class = ResourceSerializer
+    permission_classes = [KarnaOrgGroupObjectLevelPermission]
+    search_fields = default_search_fields
+    ordering_fields = ['id', 'name', 'summary', 'type', 'purpose', 'org_group', 'published', ]
+    ordering = default_ordering
+    filterset_fields = {
+        'id': id_fields_filter_lookups,
+        'name': string_fields_filter_lookups,
+        'summary': string_fields_filter_lookups,
+        'type': string_fields_filter_lookups,
+        'purpose': string_fields_filter_lookups,
         'org_group': id_fields_filter_lookups,
         'published': exact_fields_filter_lookups,
     }

@@ -10,7 +10,7 @@ from django.dispatch.dispatcher import receiver
 from import_export.admin import ImportExportModelAdmin
 from massadmin.massadmin import MassEditMixin
 
-from .models import Attachment, OrgGroup, Configuration, get_database_name
+from .models import Attachment, OrgGroup, Configuration, get_database_name, Resource
 
 
 @admin.register(Configuration)
@@ -150,3 +150,14 @@ class OrgGroupAdmin(CustomModelAdmin):
         ('guests', RelatedOnlyFieldListFilter),
     )
     search_fields = ['name', 'summary', 'description', ]
+
+
+@admin.register(Resource)
+class ResourceAdmin(CustomModelAdmin):
+    list_filter = (
+        'published',
+        ('org_group', RelatedOnlyFieldListFilter),
+        'type',
+        'purpose',
+    )
+    search_fields = ['name', 'summary', 'description', 'purpose', 'type', ]
