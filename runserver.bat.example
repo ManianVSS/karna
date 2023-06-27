@@ -9,6 +9,6 @@ rem export DJANGO__SECRET_KEY='django-insecure-j)9ww_2o%n0(-)2j1s8ew$lwbxqz&*dl3
 rem export DEBUG=False
 rem export DJANGO__bool__DEBUG=False
 
-cd backend 
+cd KarnaServer 
 python3 manage.py runserver 0.0.0.0:8000 --insecure
 cd ..
