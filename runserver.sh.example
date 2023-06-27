@@ -1,0 +1,15 @@
+#!/bin/bash
+export mode=production
+export DATABASE__NAME=karna
+export DATABASE__USER=karnaadmin
+export DATABASE__PASSWORD=karnaadmin@123
+export DATABASE__HOST=localhost
+export DATABASE__PORT=5432
+
+# export DJANGO__SECRET_KEY='django-insecure-j)9ww_2o%n0(-)2j1s8ew$lwbxqz&*dl3q8e&_&t^&fpm17-=c'
+# export DEBUG=False
+# export DJANGO__bool__DEBUG=False
+
+cd backend 
+python3 manage.py runserver 0.0.0.0:8000 --insecure
+cd ..

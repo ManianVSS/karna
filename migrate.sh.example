@@ -1,0 +1,14 @@
+#!/bin/bash
+export mode=production
+export DATABASE__NAME=karna
+export DATABASE__USER=karnaadmin
+export DATABASE__PASSWORD=karnaadmin@123
+export DATABASE__HOST=localhost
+export DATABASE__PORT=5432
+
+cd backend
+python manage.py makemigrations api
+python manage.py migrate
+python manage.py shell -c "from create_super_user import create_super_user; create_super_user()"
+cd ..
+

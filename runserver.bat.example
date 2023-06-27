@@ -1,0 +1,14 @@
+set mode=production
+set DATABASE__NAME=karna
+set DATABASE__USER=karnaadmin
+set DATABASE__PASSWORD=karnaadmin@123
+set DATABASE__HOST=localhost
+set DATABASE__PORT=5432
+
+rem export DJANGO__SECRET_KEY='django-insecure-j)9ww_2o%n0(-)2j1s8ew$lwbxqz&*dl3q8e&_&t^&fpm17-=c'
+rem export DEBUG=False
+rem export DJANGO__bool__DEBUG=False
+
+cd backend 
+python3 manage.py runserver 0.0.0.0:8000 --insecure
+cd ..

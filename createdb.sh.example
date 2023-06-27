@@ -1,0 +1,6 @@
+#!/bin/bash
+sudo -u postgres psql -c "create database karna"
+sudo -u postgres psql -c "create user karnaadmin with encrypted password 'karnaadmin@123'"
+sudo -u postgres psql -c "grant all privileges on database karna to karnaadmin"
+
+./migrate.sh

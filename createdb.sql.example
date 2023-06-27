@@ -1,0 +1,3 @@
+create database karna;
+create user karnaadmin with encrypted password 'karnaadmin@123';
+grant all privileges on database karna to karnaadmin;
