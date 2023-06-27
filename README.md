@@ -1,4 +1,4 @@
-# karna
+# Karna
 
 A resource inventory, allocation and management system.
 
@@ -9,17 +9,17 @@ A resource inventory, allocation and management system.
 ##### **Pre-Requisites**</br>
 Python 3, pip and libpq-dev </br>
 > sudo apt install libpq-dev</br>
-> cd backend</br>
+> cd KarnaServer</br>
 > pip install -r requirements.txt</br>
 
 ##### **Creating and Migrating DB Schema**</br>
 
-> cd backend</br>
+> cd KarnaServer</br>
 > ./migrate.sh</br>
 
 ##### **Running server**
 
-> cd backend</br>
+> cd KarnaServer</br>
 > ./runserver.sh</br>
 
 Admin console should be up on http://localhost:8000/admin
@@ -31,7 +31,7 @@ Note: Create files referring to the .example files in root directory</br>
 ##### **Pre-Requisites**</br>
 Python 3, pip , postgres database and libpq-dev </br>
 > sudo apt install libpq-dev</br>
-> cd backend</br>
+> cd KarnaServer</br>
 > pip install -r requirements.txt</br>
 
 ##### **Creating Postgres production DB and schema one time**</br>
@@ -48,7 +48,7 @@ Python 3, pip , postgres database and libpq-dev </br>
 
 Admin console should be up on http://localhost:8000/admin
 
-### **Building Dashboard**
+### **Building Karna**
 
 ##### **Pre-Requisites**</br>
 
@@ -62,6 +62,6 @@ Installing yarn</br>
 > cd webui</br>
 > yarn install</br>
 > yarn build </br>
-> cd ../backend/</br>
+> cd ../KarnaServer/</br>
 > ln -sf ../webui/build .</br>
 > cd ..</br>
